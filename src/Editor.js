@@ -1,21 +1,18 @@
 /** @jsx jsx */
 import React from 'react'
-import {EditorState, RichUtils, DefaultDraftBlockRenderMap} from 'draft-js'
+import {EditorState, ContentState, RichUtils, DefaultDraftBlockRenderMap} from 'draft-js'
 import {default as Draft} from 'draft-js-plugins-editor'
 import createInlineToolbarPlugin, {Separator} from 'draft-js-inline-toolbar-plugin'
 import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
 import {jsx} from '@emotion/core'
+import {useTheme} from 'emotion-theming'
 import {
   BoldButton,
   ItalicButton,
   UnderlineButton,
-  UnorderedListButton,
   BlockquoteButton,
   CenterButton
 } from './ToolbarButtons'
-
-const inlineToolbarPlugin = createInlineToolbarPlugin()
-const {InlineToolbar} = inlineToolbarPlugin
 
 DefaultDraftBlockRenderMap.merge({
   'centered': {
@@ -23,9 +20,18 @@ DefaultDraftBlockRenderMap.merge({
   }
 })
 
+const inlineToolbarPlugin = createInlineToolbarPlugin()
+const {InlineToolbar} = inlineToolbarPlugin
+
 export function Editor () {
-  const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
+  const [editorState, setEditorState] = React.useState(
+    EditorState.createWithContent(
+      ContentState.createFromText('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lectus at maximus cursus. Vestibulum blandit tellus vel nulla pharetra, eget pellentesque justo facilisis. \n\nPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam pellentesque dolor dolor, eu suscipit risus rutrum sed. Donec porta nisl quam, et venenatis quam dignissim at. Curabitur eget risus ex. \n\nIn sollicitudin nibh quis orci feugiat aliquam eu sit amet magna. Duis scelerisque cursus libero, in fringilla ligula porta ac. Maecenas massa tortor, commodo id sem vitae, bibendum ultricies magna. Pellentesque vehicula sapien vitae est commodo imperdiet. Aliquam nec urna ante. Nullam porttitor at dolor a tempus. Sed laoreet urna sed facilisis efficitur.')
+    )
+  )
+  const [title, setTitle] = React.useState('Title')
   const editor = React.useRef(null)
+  const theme = useTheme()
 
   React.useEffect(() => {
     editor.current.focus()
@@ -56,25 +62,78 @@ export function Editor () {
   return (
     <div css={{
       fontFamily: 'PT Serif',
-      padding: '1em',
       margin: 'auto',
-      fontSize: '1.4em',
-      width: '50%',
-      border: '1px solid #eee',
+      fontSize: '1.3em',
+      lineHeight: '140%',
+      width: '80%',
+      paddingBottom: 100,
+      [theme.breakpoints.sm]: {
+        width: '70%'
+      },
+      [theme.breakpoints.md]: {
+        width: '50%'
+      },
+      [theme.breakpoints.lg]: {
+        width: '45%'
+      },
+      [theme.breakpoints.xl]: {
+        width: '35%'
+      },
       '& .centered': {
         textAlign: 'center'
       },
       '& blockquote': {
-        borderLeft: '1px solid rgba(0, 0, 0, 0.25)',
-        marginLeft: '0.5em',
+        borderLeft: `5px solid ${theme.blockquote.borderColor}`,
+        margin: 0,
+        marginLeft: '-0.5em',
         paddingLeft: '0.5em',
-        fontStyle: 'italic',
-        color: 'rgba(0, 0, 0, 0.65)'
       },
-      '& button': {
-        cursor: 'pointer'
+
+      /** Toolbar styling */
+      '& .draftJsToolbar__toolbar__dNtBH': {
+        background: theme.toolbar.background,
+        border: 'none',
+        boxShadow: theme.toolbar.boxShadow,
+        '&:before, &:after': {
+          borderTopColor: theme.toolbar.background
+        }
+      },
+      '& .draftJsToolbar__button__qi1gf': {
+        cursor: 'pointer',
+        background: theme.toolbar.background,
+        color: theme.toolbar.color,
+        transition: 'color ease 0.1s',
+        '&:hover': {
+          background: theme.toolbar.hover.background
+        }
+      },
+      '& .draftJsToolbar__active__3qcpF': {
+        color: theme.toolbar.active.color
+      },
+      '& .draftJsToolbar__separator__3U7qt': {
+        borderColor: theme.toolbar.separator,
+        height: 20
       }
     }}>
+      <input
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        css={{
+          fontSize: '1.5em',
+          width: '100%',
+          padding: '0.25em 0',
+          border: 'none',
+          fontFamily: 'inherit',
+          fontWeight: 'bold',
+          marginBottom: '0.25em',
+          background: 'transparent',
+          '&:focus': {
+            outline: 'none',
+            boxShadow: 'none'
+          }
+        }}
+      />
       <Draft
         ref={editor}
         editorState={editorState}
@@ -83,7 +142,10 @@ export function Editor () {
         plugins={[inlineToolbarPlugin]}
         blockStyleFn={blockStyleFn}
       />
-      <InlineToolbar>
+      <InlineToolbar theme={{
+        toolbarStyles: theme.toolbar,
+        buttonStyles: theme.toolbar.buttons
+      }}>
         {
           (externalProps) => (
             <React.Fragment>
@@ -91,7 +153,6 @@ export function Editor () {
               <ItalicButton {...externalProps} />
               <UnderlineButton {...externalProps} />
               <Separator {...externalProps} />
-              <UnorderedListButton {...externalProps} />
               <BlockquoteButton {...externalProps} />
               <CenterButton {...externalProps} />
             </React.Fragment>

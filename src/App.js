@@ -1,25 +1,28 @@
 /** @jsx jsx */
 import React from 'react';
 import {Editor} from './Editor'
-import {jsx} from '@emotion/core'
+import {jsx, Global, css} from '@emotion/core'
+import {ThemeProvider} from 'emotion-theming'
+import {LightTheme} from './LightTheme'
 
 function App() {
+  const [theme, setTheme] = React.useState(LightTheme)
+  
   return (
-    <div css={{
-      fontFamily: `-apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Helvetica,
-        Arial,
-        sans-serif,
-        "Apple Color Emoji",
-        "Segoe UI Emoji",
-        "Segoe UI Symbol"`,
-      color: 'rgba(0, 0, 0, 0.85)'
-    }}>
-      <Editor />
-    </div>
+    <ThemeProvider theme={theme}>
+      <Global
+        styles={css`
+          body {
+            background: ${theme.background}
+          }
+        `}
+      />
+      <div css={{
+        color: theme.color
+      }}>
+        <Editor />
+      </div>
+    </ThemeProvider>
   );
 }
 

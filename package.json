@@ -11,6 +11,7 @@
     "draft-js-buttons": "^2.0.2",
     "draft-js-inline-toolbar-plugin": "^3.0.1",
     "draft-js-plugins-editor": "^3.0.0",
+    "emotion-theming": "^10.0.19",
     "react": "^16.10.1",
     "react-dom": "^16.10.1",
     "react-scripts": "3.1.2"
