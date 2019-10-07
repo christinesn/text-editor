@@ -1,102 +1,102 @@
 /** @jsx jsx */
-import React from 'react'
-import {jsx} from '@emotion/core'
-import {useTheme} from 'emotion-theming'
+import React from "react";
+import { jsx } from "@emotion/core";
+import { useTheme } from "emotion-theming";
 import {
-  Drawer, 
-  IconButton, 
-  Tooltip, 
-  List, 
-  ListItem, 
-  ListItemText, 
-  ListItemSecondaryAction,
-} from '@material-ui/core'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {format} from 'date-fns'
+  Drawer,
+  IconButton,
+  Tooltip,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction
+} from "@material-ui/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { format } from "date-fns";
 import {
-  faFolderOpen, 
-  faCaretRight, 
-  faCaretLeft, 
+  faFolderOpen,
+  faCaretRight,
+  faCaretLeft,
   faTrashAlt,
   faDownload
-} from '@fortawesome/free-solid-svg-icons'
-import {useDocumentActions} from './useDocumentActions'
-import {DownloadDialog} from './DownloadDialog'
+} from "@fortawesome/free-solid-svg-icons";
+import { useDocumentActions } from "./useDocumentActions";
+import { DownloadDialog } from "./DownloadDialog";
 
-export function DocumentsDrawer ({ 
-  saves, 
-  setSaves, 
-  setTitle, 
+export function DocumentsDrawer({
+  saves,
+  setSaves,
+  setTitle,
   setEditorState,
   keepIconsVisible,
   open,
   setOpen
 }) {
-  const [showButton, setShowButton] = React.useState(true)
-  const [timer, setTimer] = React.useState(null)
-  const [downloadDialogOpen, setDownloadDialogOpen] = React.useState(false)
-  const theme = useTheme()
-  const drawerWidth = 275
-  const {switchToDocument, deleteDocument} = useDocumentActions({
+  const [showButton, setShowButton] = React.useState(true);
+  const [timer, setTimer] = React.useState(null);
+  const [downloadDialogOpen, setDownloadDialogOpen] = React.useState(false);
+  const theme = useTheme();
+  const drawerWidth = 275;
+  const { switchToDocument, deleteDocument } = useDocumentActions({
     saves,
     setSaves,
     setTitle,
     setEditorState
-  })
-  const closeButton = React.useRef(null)
+  });
+  const closeButton = React.useRef(null);
 
   React.useEffect(() => {
-    function handleMousemove () {
-      clearInterval(timer)
-      setShowButton(true)
+    function handleMousemove() {
+      clearInterval(timer);
+      setShowButton(true);
     }
 
-    window.addEventListener('mousemove', handleMousemove)
+    window.addEventListener("mousemove", handleMousemove);
 
     return () => {
-      window.removeEventListener('mousemove', handleMousemove)
-    }
-  }, [])
+      window.removeEventListener("mousemove", handleMousemove);
+    };
+  }, []);
 
   React.useEffect(() => {
     if (!timer) {
-      setTimer(setInterval(() => setShowButton(false), 10000))
+      setTimer(setInterval(() => setShowButton(false), 10000));
     }
 
     return () => {
-      clearInterval(timer)
-    }
-  }, [timer])
+      clearInterval(timer);
+    };
+  }, [timer]);
 
   React.useEffect(() => {
     if (open) {
-      closeButton.current.focus()
+      closeButton.current.focus();
     }
-  }, [open])
+  }, [open]);
 
-  function formatDocumentTitle ( title, content ) {
+  function formatDocumentTitle(title, content) {
     if (title) {
-      return title
+      return title;
     }
 
-    const text = content.blocks[0].text
+    const text = content.blocks[0].text;
     if (text) {
-      return text.substring(0, 50)
+      return text.substring(0, 50);
     }
 
-    return 'Untitled'
+    return "Untitled";
   }
 
   return (
     <div
       css={{
-        '& .MuiIconButton-root': {
+        "& .MuiIconButton-root": {
           color: `${theme.button.color} !important`,
-          '&:active, &:hover': {
+          "&:active, &:hover": {
             backgroundColor: `${theme.button.hoverBackground} !important`,
             color: `${theme.button.hoverColor} !important`
           },
-          '&:focus': {
+          "&:focus": {
             backgroundColor: `${theme.button.focusBackground} !important`
           }
         }
@@ -105,12 +105,12 @@ export function DocumentsDrawer ({
       {!open && (
         <div
           css={{
-            position: 'fixed',
-            top: '0.5em',
+            position: "fixed",
+            top: "0.5em",
             left: 0,
             marginLeft: 0,
-            transition: 'opacity ease 1s',
-            opacity: (keepIconsVisible || showButton) ? 1 : 0
+            transition: "opacity ease 1s",
+            opacity: keepIconsVisible || showButton ? 1 : 0
           }}
         >
           <Tooltip placement="right" title="View documents">
@@ -120,17 +120,17 @@ export function DocumentsDrawer ({
               onFocus={() => setShowButton(true)}
               aria-label="View documents"
               css={{
-                fontSize: '1.3em !important',
-                minWidth: '0px !important',
-                padding: '0.5em !important',
-                borderRadius: '0px 4px 4px 0px !important'
+                fontSize: "1.3em !important",
+                minWidth: "0px !important",
+                padding: "0.5em !important",
+                borderRadius: "0px 4px 4px 0px !important"
               }}
             >
               <FontAwesomeIcon icon={faFolderOpen} />
               <FontAwesomeIcon
                 icon={faCaretRight}
                 css={{
-                  marginLeft: '0.5em'
+                  marginLeft: "0.5em"
                 }}
               />
             </IconButton>
@@ -146,7 +146,7 @@ export function DocumentsDrawer ({
           timeout: 200
         }}
         css={{
-          '& .MuiDrawer-paper': {
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
             background: theme.drawer.background,
             borderRight: `1px solid ${theme.drawer.borderColor} !important`,
@@ -159,14 +159,14 @@ export function DocumentsDrawer ({
           <div
             css={{
               height: 42,
-              padding: '0.5em',
+              padding: "0.5em",
               borderBottom: `1px solid ${theme.drawer.open.border}`,
               boxShadow: `0 0 7px 0 ${theme.drawer.open.border}`,
-              '& .MuiIconButton-root': {
-                fontSize: '1.3em !important',
-                minWidth: '0px !important',
-                padding: '0.5em !important',
-                borderRadius: '4px !important'
+              "& .MuiIconButton-root": {
+                fontSize: "1.3em !important",
+                minWidth: "0px !important",
+                padding: "0.5em !important",
+                borderRadius: "4px !important"
               }
             }}
           >
@@ -186,13 +186,13 @@ export function DocumentsDrawer ({
                 onClick={() => setOpen(false)}
                 aria-label="Close drawer"
                 css={{
-                  float: 'right'
+                  float: "right"
                 }}
               >
                 <FontAwesomeIcon
                   icon={faCaretLeft}
                   css={{
-                    marginRight: '0.5em'
+                    marginRight: "0.5em"
                   }}
                 />
                 <FontAwesomeIcon icon={faFolderOpen} />
@@ -201,66 +201,68 @@ export function DocumentsDrawer ({
           </div>
           <div
             css={{
-              height: 'calc(100% - 42px)',
-              overflow: 'auto'
+              height: "calc(100% - 42px)",
+              overflow: "auto"
             }}
           >
             <List>
-              {saves.sort((a, b) => (a.date < b.date ? 1 : -1)).map(save => (
-                <ListItem
-                  key={save.id}
-                  button
-                  dense
-                  onClick={() => switchToDocument(save)}
-                  data-testid={`switch_to_${save.id}`}
-                  css={{
-                    background: save.open 
-                      ? `${theme.drawer.open.background} !important` 
-                      : 'transparent',
-                    borderTop: save.open 
-                      ? `1px solid ${theme.drawer.open.border} !important`
-                      : '1px solid transparent !important',
-                    borderBottom: save.open 
-                      ? `1px solid ${theme.drawer.open.border} !important`
-                      : '1px solid transparent !important',
-                    '&:hover, &:active': {
-                      background: `${theme.button.hoverBackground} !important`
-                    },
-                    '&:focus': {
-                      background: `${theme.button.focusBackground} !important`
-                    }
-                  }}
-                >
-                  <ListItemText
-                    primary={formatDocumentTitle(save.title, save.content)}
-                    secondary={format(save.date, "MM/dd/yyyy - h:mmaaaaa'm'")}
+              {saves
+                .sort((a, b) => (a.date < b.date ? 1 : -1))
+                .map(save => (
+                  <ListItem
+                    key={save.id}
+                    button
+                    dense
+                    onClick={() => switchToDocument(save)}
+                    data-testid={`switch_to_${save.id}`}
                     css={{
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                      paddingRight: '1em',
-                      whiteSpace: 'nowrap',
-                      '& .MuiListItemText-secondary': {
-                        fontSize: '0.75em',
-                        color: `${theme.drawer.dateColor} !important`
+                      background: save.open
+                        ? `${theme.drawer.open.background} !important`
+                        : "transparent",
+                      borderTop: save.open
+                        ? `1px solid ${theme.drawer.open.border} !important`
+                        : "1px solid transparent !important",
+                      borderBottom: save.open
+                        ? `1px solid ${theme.drawer.open.border} !important`
+                        : "1px solid transparent !important",
+                      "&:hover, &:active": {
+                        background: `${theme.button.hoverBackground} !important`
+                      },
+                      "&:focus": {
+                        background: `${theme.button.focusBackground} !important`
                       }
                     }}
-                  />
-                  <ListItemSecondaryAction>
-                    <Tooltip placement="bottom" title="Delete">
-                      <IconButton
-                        disableFocusRipple
-                        onClick={() => deleteDocument(save)}
-                        css={{
-                          fontSize: '1.1em !important'
-                        }}
-                        data-testid={`delete_${save.id}`}
-                      >
-                        <FontAwesomeIcon icon={faTrashAlt} />
-                      </IconButton>
-                    </Tooltip>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
+                  >
+                    <ListItemText
+                      primary={formatDocumentTitle(save.title, save.content)}
+                      secondary={format(save.date, "MM/dd/yyyy - h:mmaaaaa'm'")}
+                      css={{
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        paddingRight: "1em",
+                        whiteSpace: "nowrap",
+                        "& .MuiListItemText-secondary": {
+                          fontSize: "0.75em",
+                          color: `${theme.drawer.dateColor} !important`
+                        }
+                      }}
+                    />
+                    <ListItemSecondaryAction>
+                      <Tooltip placement="bottom" title="Delete">
+                        <IconButton
+                          disableFocusRipple
+                          onClick={() => deleteDocument(save)}
+                          css={{
+                            fontSize: "1.1em !important"
+                          }}
+                          data-testid={`delete_${save.id}`}
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </IconButton>
+                      </Tooltip>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
             </List>
           </div>
         </React.Fragment>
@@ -272,5 +274,5 @@ export function DocumentsDrawer ({
         saves={saves}
       />
     </div>
-  )
+  );
 }
