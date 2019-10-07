@@ -74,6 +74,19 @@ export function DocumentsDrawer ({
     }
   }, [open])
 
+  function formatDocumentTitle ( title, content ) {
+    if (title) {
+      return title
+    }
+
+    const text = content.blocks[0].text
+    if (text) {
+      return text.substring(0, 50)
+    }
+
+    return 'Untitled'
+  }
+
   return (
     <div
       css={{
@@ -171,7 +184,7 @@ export function DocumentsDrawer ({
                 ref={closeButton}
                 disableFocusRipple
                 onClick={() => setOpen(false)}
-                aria-label="Close documents"
+                aria-label="Close drawer"
                 css={{
                   float: 'right'
                 }}
@@ -199,6 +212,7 @@ export function DocumentsDrawer ({
                   button
                   dense
                   onClick={() => switchToDocument(save)}
+                  data-testid={`switch_to_${save.id}`}
                   css={{
                     background: save.open 
                       ? `${theme.drawer.open.background} !important` 
@@ -218,7 +232,7 @@ export function DocumentsDrawer ({
                   }}
                 >
                   <ListItemText
-                    primary={save.title || 'Untitled'}
+                    primary={formatDocumentTitle(save.title, save.content)}
                     secondary={format(save.date, "MM/dd/yyyy - h:mmaaaaa'm'")}
                     css={{
                       textOverflow: 'ellipsis',
@@ -239,6 +253,7 @@ export function DocumentsDrawer ({
                         css={{
                           fontSize: '1.1em !important'
                         }}
+                        data-testid={`delete_${save.id}`}
                       >
                         <FontAwesomeIcon icon={faTrashAlt} />
                       </IconButton>

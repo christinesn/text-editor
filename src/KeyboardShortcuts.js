@@ -44,7 +44,7 @@ export function KeyboardShortcuts ({
         '& #keyboard-shortcuts-content': {
           color: theme.color
         },
-        '& pre': {
+        '& .pre': {
           display: 'inline-block',
           background: theme.pre.background,
           padding: '0 0.5em',
@@ -64,66 +64,65 @@ export function KeyboardShortcuts ({
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="keyboard-shortcuts-content">
-          <div>
-            <pre
-              aria-labelledby="shortcuts-bold-label"
-            >
-              Ctrl + B
-            </pre>
-            <span
-              id="shortcuts-bold-label"
-            >
-              Bold
-            </span>
-          </div>
-          <div>
-            <pre
-              aria-labelledby="shortcuts-italic-label"
-            >
-              Ctrl + I
-            </pre>
-            <span
-              id="shortcuts-italic-label"
-            >
-              Italics
-            </span>
-          </div>
-          <div>
-            <pre
-              aria-labelledby="shortcuts-underline-label"
-            >
-              Ctrl + U
-            </pre>
-            <span
-              id="shortcuts-underline-label"
-            >
-              Underline
-            </span>
-          </div>
-          <div>
-            <pre
-              aria-labelledby="shortcuts-blockquote-label"
-            >
-              Ctrl + J
-            </pre>
-            <span
-              id="shortcuts-blockquote-label"
-            >
-              Blockquote
-            </span>
-          </div>
-          <div>
-            <pre
-              aria-labelledby="shortcuts-center-label"
-            >
-              Ctrl + K
-            </pre>
-            <span
-              id="shortcuts-center-label"
-            >
-              Center
-            </span>
-          </div>
+          <span
+            className="pre"
+            aria-labelledby="shortcuts-bold-label"
+          >
+            Ctrl + B
+          </span>
+          <span
+            id="shortcuts-bold-label"
+          >
+            Bold
+          </span>
+          <br />
+          <span
+            className="pre"
+            aria-labelledby="shortcuts-italic-label"
+          >
+            Ctrl + I
+          </span>
+          <span
+            id="shortcuts-italic-label"
+          >
+            Italics
+          </span>
+          <br />
+          <span
+            className="pre"
+            aria-labelledby="shortcuts-underline-label"
+          >
+            Ctrl + U
+          </span>
+          <span
+            id="shortcuts-underline-label"
+          >
+            Underline
+          </span>
+          <br />
+          <span
+            className="pre"
+            aria-labelledby="shortcuts-blockquote-label"
+          >
+            Ctrl + J
+          </span>
+          <span
+            id="shortcuts-blockquote-label"
+          >
+            Blockquote
+          </span>
+          <br />
+          <span
+            className="pre"
+            aria-labelledby="shortcuts-center-label"
+          >
+            Ctrl + K
+          </span>
+          <span
+            id="shortcuts-center-label"
+          >
+            Center
+          </span>
         </DialogContentText>
       </DialogContent>
     </Dialog>

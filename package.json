@@ -28,7 +28,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "coverage": "react-scripts test --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -46,6 +47,23 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^1.18.2"
+    "@testing-library/jest-dom": "^4.1.0",
+    "@testing-library/react": "^9.3.0",
+    "prettier": "^1.18.2",
+    "sinon": "^7.5.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js",
+      "!src/serviceWorker.js",
+      "!src/**/*.test.js"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "json",
+      "text",
+      "text-summary"
+    ]
   }
 }

@@ -87,8 +87,17 @@ export function useDownload () {
     return format(date, "yyyyMMddHHmmss")
   }
 
-  function formatFilename (title) {
-    return (title && title.substring(0, 20)) || 'Untitled'
+  function formatFilename (title, editorState) {
+    if (title) {
+      return title.substring(0, 20)
+    }
+
+    const body = editorState.getCurrentContent().getPlainText()
+    if (body) {
+      return body.substring(0, 15)
+    }
+
+    return 'Untitled'
   }
 
   function docAsHTML ({ title, editorState, style = 'light', date }) {
@@ -119,7 +128,7 @@ export function useDownload () {
       { type: 'text/html;charset=utf-8' }
     )
 
-    const filename = formatFilename(title)
+    const filename = formatFilename(title, editorState)
 
     return {
       blob: blob,
@@ -152,7 +161,7 @@ export function useDownload () {
       type: 'text/plain;charset=utf-8'
     })
 
-    const filename = formatFilename(title)
+    const filename = formatFilename(title, editorState)
 
     return {
       blob: blob,
@@ -177,7 +186,7 @@ export function useDownload () {
       editorState.getCurrentContent().getPlainText()
     ])
 
-    const filename = formatFilename(title)
+    const filename = formatFilename(title, editorState)
 
     return {
       blob: blob,
@@ -227,6 +236,7 @@ export function useDownload () {
     downloadDocAsMarkdown,
     docAsPlaintext,
     downloadDocAsPlaintext,
-    downloadAll
+    downloadAll,
+    formatFilename
   }
 }
