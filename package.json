@@ -2,6 +2,7 @@
   "name": "text-editor",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://christinesn.github.io/text-editor",
   "dependencies": {
     "@emotion/core": "^10.0.17",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
@@ -30,7 +31,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "coverage": "react-scripts test --coverage",
-    "prettify": "prettier es5 --write 'src/**/*.js'"
+    "prettify": "prettier es5 --write 'src/**/*.js'",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -50,6 +53,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.3.0",
+    "gh-pages": "^6.0.0",
     "prettier": "^1.18.2",
     "sinon": "^7.5.0"
   },
