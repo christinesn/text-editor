@@ -1,4 +1,4 @@
-### text-editor
-A minimalist writing space created with React. Includes a dark mode, rich text, and the ability to switch between multiple documents.
+## text-editor
+A minimalist writing workspace created with React.
 
-Live demo at [christinesn.github.io/text-editor](https://christinesn.github.io/text-editor/)
+Live demo: [christinesn.github.io/text-editor](https://christinesn.github.io/text-editor/)
